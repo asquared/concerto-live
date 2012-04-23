@@ -1,0 +1,28 @@
+Build instructions/development workflow:
+
+First, install the live-build package on the debian system you will be using:
+sudo apt-get install live-build
+
+To build the ISO, run in this directory:
+sudo lb build
+
+To test it, if you have qemu-kvm installed:
+kvm -cdrom binary-hybrid.iso -m 1024
+
+IMPORTANT: If you make changes, make sure to clean before rebuilding:
+* hack hack *
+sudo lb clean
+sudo lb build
+
+If "lb clean" isn't run first, changes may not be applied.
+
+Interesting files:
+config/package-lists/concerto.list
+    names the packages to be added to the base Debian system
+
+config/includes.chroot/usr/local/bin/concerto
+    acts as an X session script to run chromium in fullscreen kiosk mode
+
+config/includes.chroot/lib/live/config/050-concerto-xsession-manager
+    runs at boot time and sets up /usr/local/bin/concerto as the default X
+    session manager

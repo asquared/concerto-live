@@ -1,0 +1,20 @@
+#!/bin/sh
+
+APP_URL="http://www.example.com/"
+
+for param in `cat /proc/cmdline`
+do
+    case "${param}" in
+        concerto.url=*)
+            APP_URL="${param#*concerto.url=}"
+            ;;
+    esac
+done
+
+unclutter &
+dwm &
+
+xset -dpms
+xset s off
+
+chromium --app --kiosk "${APP_URL}"
