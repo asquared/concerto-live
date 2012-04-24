@@ -1,6 +1,8 @@
 #!/bin/sh
 
-APP_URL="http://www.example.com/"
+MACADDR=`/sbin/ifconfig | perl -ne 'if (/(([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2})/) { print $1; exit; }'`
+
+APP_URL="http://signage.rpi.edu/?mac=$MACADDR"
 
 for param in `cat /proc/cmdline`
 do
