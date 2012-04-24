@@ -9,12 +9,19 @@ sudo lb build
 To test it, if you have qemu-kvm installed:
 kvm -cdrom binary-hybrid.iso -m 1024
 
+If you want to build an i386 image on an amd64 box, set the following 
+variables: LB_ARCHITECTURES="i386" in config/bootstrap and 
+LB_LINUX_FLAVORS="486 686-pae" in config/chroot.
+
 IMPORTANT: If you make changes, make sure to clean before rebuilding:
 * hack hack *
 sudo lb clean
 sudo lb build
 
-If "lb clean" isn't run first, changes may not be applied.
+If "lb clean" isn't run first, changes may not be applied. If you change the
+architecture in a directory where you've already built an image, you need to
+blow away everything except the "auto" and "config" directories. This includes
+the hidden ".stage" directory.
 
 Interesting files:
 config/package-lists/concerto.list
