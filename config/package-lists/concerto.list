@@ -3,3 +3,15 @@ chromium
 unclutter
 openssh-server
 dwm
+
+wireless-tools
+wpasupplicant
+atmel-firmware
+firmware-atheros
+firmware-brcm80211
+firmware-ipw2x00
+firmware-iwlwifi
+firmware-libertas
+firmware-ralink
+firmware-realtek
+
