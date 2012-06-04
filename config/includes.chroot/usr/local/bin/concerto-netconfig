@@ -1,11 +1,7 @@
+#!/usr/bin/env ruby
+
 require 'rubygems'
 require 'json'
-
-def read_sysfs(iface, var)
-    # Read a sysfs variable (/sys/class/net/iface/var).
-    path = "/sys/class/net/#{iface}/#{var}"
-    IO.read(path).chomp
-end
 
 class WiredConnection
     def initialize(args)
@@ -38,6 +34,15 @@ class WiredConnection
     end
 
 private
+    def interface_connected(iface)
+        results = `/sbin/mii-tool #{iface}`
+        if results =~ /link ok/
+            true
+        else
+            false
+        end
+    end
+
     def wired_interfaces
         # This is somewhat Linux specific, and may not be all encompassing.
         devices = Dir.glob('/sys/class/net/eth*')
@@ -46,19 +51,12 @@ private
 
     def scan_interfaces
         wired_interfaces.each do |iface|
-            # bring up interface if it was down
-            if (read_sysfs(iface, 'operstate') != 'up')
-                system "ifconfig #{iface} up"
-                sleep 0.1
-            end
-            # check if cable is connected
-            carrier = read_sysfs(iface, 'carrier')
-            # bring interface back down
-            system "ifconfig #{iface} down"
-
-            if carrier == '1'
+            system("ifconfig #{iface} up")
+            sleep 10
+            if interface_connected(iface)
                 return iface
             end
+            system("ifconfig #{iface} down")
         end
 
         # if we get here no interface was found with a cable attached
