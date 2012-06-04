@@ -1,0 +1,41 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:             concerto-netconfig
+# Required-Start:       udev
+# Required-Stop:
+# Should-Start:
+# Should-Stop:
+# X-Start-Before:       networking
+# Default-Start:        S
+# Default-Stop:
+# Short-Description:    Create Debian network config files
+# Description:          Parse user configuration data and generate Debian
+#                       network config files as needed
+### END INIT INFO
+
+NAME=concerto-netconfig
+NETCONFIG=/usr/local/bin/concerto-netconfig
+
+test -x $NETCONFIG || exit 0
+
+. /lib/lsb/init-functions
+
+run_netconfig()
+{
+    log_daemon_msg "Creating network configuration files" "$NAME"
+    $NETCONFIG < /etc/netconfig.json > /etc/network/interfaces
+    log_end_msg $?
+}
+
+case "$1" in
+  start)
+    run_netconfig
+  ;;
+  stop)
+    # do nothing
+  ;;
+  *)
+    echo "Usage: /etc/init.d/$NAME [start|stop]"
+    exit 2
+  ;;
+esac

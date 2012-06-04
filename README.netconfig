@@ -1,0 +1,57 @@
+Network configuration and the concerto-netconfig script
+
+Since Concerto clients must support a wide variety of networking environments,
+and network settings should be configurable through a graphical user interface,
+a piece of software is needed to translate a "user-friendly" network 
+configuration (wired/wireless, static/dynamic IP) into the detailed 
+configuration files required by the operating system. This job is carried out
+by concerto-netconfig, a simple Ruby script to parse a set of network
+details in JSON format and generate the necessary configuration.
+
+The netconfig script considers a network connection as two pieces. 
+First is the physical connection: what port do I use? what wireless network 
+do I authenticate to and how? This is the connection method. Second is the
+type of addressing to use (static or dynamic, maybe someday stateless-v6 
+only :). This is called the addressing method. The various connection
+and addressing methods we need to support are implemented as Ruby classes.
+These classes are instantiated using parameters supplied in the JSON input.
+
+The connection method object returns the name of a physical interface to use, 
+and potentially some extra lines for /etc/network/interfaces needed to make 
+the connection (as in the case of wireless networks). Likewise, the addressing 
+method returns the name of the (OS-level) addressing method to use (static, 
+dhcp, or whatever else) and may also add some lines to the interface files
+if necessary (e.g. static address data). Each of these objects also has the
+opportunity to write additional configuration files if needed. It's unlikely,
+but conflict may arise between the connection and addressing methods with 
+respect to a configuration file other than /etc/network/interfaces. There
+is currently no mechanism in place to avoid or resolve such conflict.
+
+Examples:
+An unsecured wireless connection with DHCP: 
+{
+    "connection_method":"WirelessConnection",
+    "connection_method_args":
+    {
+        "ssid":"SomeNetwork"
+    },
+    "addressing_method":"DHCPAddressing",
+    "addressing_method_args":{}
+}
+
+A wired connection with a static address:
+{
+    "connection_method":"WiredConnection",
+    "connection_method_args":{},
+    "addressing_method":"StaticAddressing",
+    "addressing_method_args":
+    {
+        "address":"192.168.0.99",
+        "gateway":"192.168.0.1",
+        "netmask":"255.255.255.0",
+        "nameservers":["192.168.0.2","192.168.0.3"]
+    }
+}
+
+I think this will map nicely onto a web-based UI, basically we're just 
+serializing a couple of forms into JSON. 
