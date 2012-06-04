@@ -9,9 +9,7 @@ sudo lb build
 To test it, if you have qemu-kvm installed:
 kvm -cdrom binary-hybrid.iso -m 1024
 
-If you want to build an i386 image on an amd64 box, set the following 
-variables: LB_ARCHITECTURES="i386" in config/bootstrap and 
-LB_LINUX_FLAVORS="486 686-pae" in config/chroot.
+By default an i386 image is built. To change this edit auto/config.
 
 IMPORTANT: If you make changes, make sure to clean before rebuilding:
 * hack hack *
