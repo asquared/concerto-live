@@ -1,6 +1,9 @@
 #!/bin/sh
 
 lb config noauto \
-        --architectures i386 \
+	--architectures i386 \
 	--package-lists "standard-x11" \
+	--mirror-bootstrap http://debian.lcs.mit.edu/debian/ \
+	--mirror-chroot-security http://security.debian.org/ \
+	--mirror-chroot-backports http://debian.lcs.mit.edu/debian-backports/ \
 	"${@}"
