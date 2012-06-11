@@ -22,6 +22,12 @@ test -x $NETCONFIG || exit 0
 
 run_netconfig()
 {
+	# Look for config file on the boot medium and copy it over
+	# the built-in default if it's there
+	if [ -e /live/image/netconfig.json ]
+		cp /live/image/netconfig.json /etc/netconfig.json
+	fi
+
     log_daemon_msg "Creating network configuration files" "$NAME"
     $NETCONFIG < /etc/netconfig.json > /etc/network/interfaces
     log_end_msg $?
