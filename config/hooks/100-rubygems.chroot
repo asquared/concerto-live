@@ -1,3 +1,8 @@
 #!/bin/sh
 
 gem install json
+gem install sinatra
+gem install haml
+gem install ipaddress
+gem install concerto_client
+
