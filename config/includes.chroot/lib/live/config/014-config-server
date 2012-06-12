@@ -1,0 +1,30 @@
+#!/bin/sh
+
+Config_server ()
+{
+
+	echo -n " config_server"
+
+	Configure_config_server
+}
+
+Configure_config_server ()
+{
+	# Checking if if package is already configured differently
+	if [ -e /etc/profile.d/zz-config-server.sh ]
+	then
+		return
+	fi
+
+cat > /etc/profile.d/zz-config-server.sh << EOF
+if [ \$(tty) = /dev/tty2 ]
+then
+	while true
+	do
+		concerto_configserver
+	done
+fi
+EOF
+}
+
+Config_server
