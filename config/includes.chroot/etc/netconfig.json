@@ -1,6 +1,0 @@
-{
-    "connection_method":"WiredConnection",
-    "connection_method_args":{},
-    "addressing_method":"DHCPAddressing",
-    "addressing_method_args":{}
-}
