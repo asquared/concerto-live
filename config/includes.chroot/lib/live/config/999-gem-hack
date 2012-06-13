@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Find any gems that were added to the boot media and install them.
+
+Gem_hack ()
+{
+
+	echo -n " gem_hack"
+
+	Configure_config_server
+}
+
+Configure_config_server ()
+{
+	if [ -d /live/image/install_gems ]
+		find /live/image/install_gems -iname '*.gem' -exec gem install \{\} \;
+	fi
+}
+
+Config_server
