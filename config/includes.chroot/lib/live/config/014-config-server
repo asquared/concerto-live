@@ -21,7 +21,7 @@ if [ \$(tty) = /dev/tty2 ]
 then
 	while true
 	do
-		concerto_configserver
+		sudo concerto_configserver
 	done
 fi
 EOF
