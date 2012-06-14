@@ -7,14 +7,15 @@ Gem_hack ()
 
 	echo -n " gem_hack"
 
-	Configure_config_server
+	Configure_gem_hack
 }
 
-Configure_config_server ()
+Configure_gem_hack ()
 {
 	if [ -d /live/image/install_gems ]
+	then
 		find /live/image/install_gems -iname '*.gem' -exec gem install \{\} \;
 	fi
 }
 
-Config_server
+Gem_hack
