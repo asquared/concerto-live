@@ -1,0 +1,11 @@
+#!/bin/sh
+
+Remount_image ()
+{
+
+	echo -n " remount_image"
+
+	/bin/mount -o remount,rw /live/image
+}
+
+Remount_image
